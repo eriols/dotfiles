@@ -7,4 +7,3 @@ for file in $files; do
 	echo "creating symlink to $file in home dir"
 	ln -s $dir/$file .$file
 done
-
