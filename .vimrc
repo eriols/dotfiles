@@ -25,6 +25,7 @@ set history=1000
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
+# spaces instead of tabs
 set expandtab
 set nowrap
 set textwidth=79
