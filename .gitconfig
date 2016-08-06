@@ -4,7 +4,7 @@
     whitespace = trailing-space,space-before-tab
 [user]
     name = olsson
-    email = olsson@spotify.com
+    email = erik.eo.olsson@gmail.com
 [alias]
     ci = commit
     co = checkout
@@ -21,5 +21,3 @@
     rw = rewind
     sh = show HEAD
     st = status
-[hub]
-    host = ghe.spotify.net
