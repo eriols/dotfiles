@@ -1,7 +1,6 @@
 [core]
     editor = vim
     excludesfile = ~/.gitignore
-    whitespace = trailing-space,space-before-tab
 [user]
     name = olsson
     email = erik.eo.olsson@gmail.com
@@ -11,13 +10,14 @@
     cp = cherry-pick
     df = diff
     dc = diff --cached
-    lol = log --all --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit 
-    l1 = log --format='%C(yellow)%h%C(reset) -%C(red bold)%d%C(reset) %s %C(green)(%cr) %C(cyan)<%an>%C(reset)'
+    lol = log --graph --pretty=format:'%C("#ff69b4")%h%C(reset) %C(magenta)%d%C(reset) %s %C("#ff9F96")(%cr)%C(reset)' --abbrev-commit --date=relative
     lg = log --format='%C(yellow)%h%C(reset) -%C(red bold)%d%C(reset) %s %C(green)(%cr) %C(cyan)<%an>%C(reset)' --graph
-    lm = log --format='%C(yellow)%h%C(reset) -%C(red bold)%d%C(reset) %s %C(green)(%cr)%C(reset)' --author=neville
     pr = pull-request
     rb = rebase
     ri = rebase -i
     rw = rewind
     sh = show HEAD
     st = status
+
+[push]
+	default = simple
