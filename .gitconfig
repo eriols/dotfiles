@@ -10,7 +10,7 @@
     cp = cherry-pick
     df = diff
     dc = diff --cached
-    lol = log --graph --pretty=format:'%C("#ff69b4")%h%C(reset) %C(magenta)%d%C(reset) %s %C("#ff9F96")(%cr)%C(reset)' --abbrev-commit --date=relative
+    lol = log --graph --pretty=format:'%C("#ff69b4")%h%C(reset) %C(magenta)%d%C(reset) %s %C("#ff9F96")(%cd)%C(reset)' --abbrev-commit --date=short
     lg = log --format='%C(yellow)%h%C(reset) -%C(red bold)%d%C(reset) %s %C(green)(%cr) %C(cyan)<%an>%C(reset)' --graph
     pr = pull-request
     rb = rebase
