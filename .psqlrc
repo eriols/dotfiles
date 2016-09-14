@@ -1,0 +1,25 @@
+-- prevent noisy loading of psqlrc file
+\set QUIET yes
+
+--show timing info for queries
+\timing
+
+--pager settings to support color
+\pset pager always
+
+-- allow pasting of values to avoid stupid indenting
+\set paste
+
+--get rid of duplicates in history
+\set HISTCONTROL ignoredups
+
+--set noisyness back to normal
+\unset QUIET
+
+-- How to add multiline aliases:
+-- \set some_alias `cat ~/.psqlrc-aliases/some_client/some_alias.sql`
+
+-- craig kerstiens:
+\pset linestyle unicode
+\pset border 2
+\pset null ¤
