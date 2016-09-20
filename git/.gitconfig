@@ -1,0 +1,32 @@
+[core]
+    editor = vim
+    excludesfile = ~/.gitignore
+
+[user]
+	name = Erik Olsson
+    email = erik.eo.olsson@gmail.com
+
+[color "diff"]
+    meta = yellow
+    frag = magenta
+    old = red strike
+    new = green italic
+    whitespace = red reverse
+
+[alias]
+    ci = commit
+    co = checkout
+    df = diff
+    dc = diff --cached
+    lol = log --graph --pretty=format:'%C("#ff69b4")%h%C(reset) %C(magenta)%d%C(reset) %s %C("#ff9F96")(%cd)%C("#808080")(%cn)%C(reset)' --abbrev-commit --date=short
+    lg = log --format='%C(yellow)%h%C(reset) -%C(red bold)%d%C(reset) %s %C(green)(%cr) %C(cyan)<%an>%C(reset)' --graph
+    pr = pull-request
+    rb = rebase
+    ri = rebase -i
+    rw = rewind
+    sh = show HEAD
+    st = status
+    sts = status -s
+
+[push]
+	default = simple
