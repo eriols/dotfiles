@@ -3,7 +3,7 @@
     excludesfile = ~/.gitignore
 
 [user]
-	name = Erik Olsson
+    name = Erik Olsson
     email = erik.eo.olsson@gmail.com
 
 [color "diff"]
