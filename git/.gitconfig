@@ -27,6 +27,7 @@
     sh = show HEAD
     st = status
     sts = status -s
+    sp = status --porcelain
 
 [push]
 	default = simple
