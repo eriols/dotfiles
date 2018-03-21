@@ -18,3 +18,4 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+bind -f ~/code/dotfiles/.inputrc
