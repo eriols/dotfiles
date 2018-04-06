@@ -1,0 +1,7 @@
+alphavantageapikey="your key"
+result=$( curl -s "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=SPOT&interval=1min&apikey=$alphavantageapikey")
+price=$( echo "$result" | jq -r '.["Time Series (1min)"] | keys[0] as $k | .[$k]["4. close"]')
+lastprice=$( echo "$result" | jq -r '.["Time Series (1min)"] | keys[1] as $k | .[$k]["4. close"]')
+trend=$(echo "$price - $lastprice" | bc -l | awk '{ print ($1 < 0) ? "📉" : "📈" }')
+
+echo $trend $price
