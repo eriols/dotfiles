@@ -28,6 +28,15 @@ Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 " different version somewhere else.
 " Plugin 'ascenator/L9', {'name': 'newL9'}
 Plugin 'flazz/vim-colorschemes'
+" utility
+Plugin 'scrooloose/nerdtree'
+Plugin 'Shougo/neocomplete.vim'
+" generic programming support
+" does not exist atm Plugin 'jakedouglas/exuberant-ctags'
+Plugin 'vim-syntastic/syntastic'
+" languages
+Plugin 'justinmk/vim-syntax-extra'
+Plugin 'hdima/python-syntax'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -43,6 +52,16 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
+" show linenumbers
+set number
+set ruler
+
+" always show the status line
+set laststatus=2
+" elite mode, no arrows
+"let g:elite_mode=1
+" enable highlighting of current line
+set cursorline
 
 set guifont=Inconsolata\ for\ Powerline:h15
 let g:Powerline_symbols = 'fancy'
@@ -78,4 +97,7 @@ set expandtab
 set nowrap
 set formatoptions=qrn1tco
 set textwidth =0 wrapmargin=0
+
+" mappings configuration
+map <C-n> :NERDTreeToggle<CR>
 
