@@ -1,14 +1,18 @@
-set nocompatible              " be iMproved, required
+set nocompatible              " vim, not vi. required
 filetype off                  " required
 
 call plug#begin('~/.vim/plugged')
 
-" The following are examples of different formats supported.
-Plug 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+" more lightweight than Powerline
+Plug 'bling/vim-airline'
+"Plug 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plug 'flazz/vim-colorschemes'
 " utility
-Plug 'scrooloose/nerdtree'
-Plug 'Shougo/neocomplete.vim'
+"Plug 'Shougo/neocomplete.vim'
+Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-markdown'
+" does not solve the symlink issue in tree view but hey, it's a later version
+Plug 'eiginn/netrw'
 " generic programming support
 " languages
 Plug 'justinmk/vim-syntax-extra'
@@ -47,7 +51,7 @@ set t_Co=256
 set fillchars+=stl:\ ,stlnc:\
 set term=xterm-256color
 set termencoding=utf-8
-set nocompatible
+set backspace=indent,eol,start
 
 " macvim
 if has("gui_running")
@@ -76,11 +80,22 @@ set expandtab
 set nowrap
 set formatoptions=qrn1tco
 set textwidth =0 wrapmargin=0
+set hidden
+ 
 
-let NERDTreeShowHidden=1
-let NERDTreeMinimalUI=1
-let NERDTreeDirArrows=1
-nnoremap <Leader>nt :NERDTree<cr>
-" let NERDTreeIgnore=['\.DS_Store', '\.git']
-"
+" netrw things
+let g:netrw_liststyle=3
+" https://github.com/tpope/vim-vinegar/issues/13
+autocmd FileType netrw setl bufhidden=delete 
+let g:netrw_list_hide='.*\.swp$,.*\.pyc'
+
+let g:markdown_fenced_languages = ['c', 'python', 'scala', 'sql', 'sh', 'perl', 'ruby', 'awk']
+" comment code
+autocmd FileType python,sh noremap <Leader>c :normal U# <Esc>
+autocmd FileType vim noremap <Leader>c :normal U" <Esc>
+
+"buffer stuff
+:nnoremap <Leader>b :ls<CR>
+:nnoremap <Leader>en :e ~/notes.md<CR>
+:nnoremap <Leader>ev :e ~/.vimrc<CR>
 
