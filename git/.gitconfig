@@ -28,6 +28,9 @@
     st = status
     sts = status -s
     sp = status --porcelain
+	ctags = !.git/hooks/ctags
 
 [push]
 	default = simple
+[init]
+	templatedir = ~/.git_template
