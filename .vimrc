@@ -90,7 +90,7 @@ set hidden
 let g:netrw_liststyle=3
 " https://github.com/tpope/vim-vinegar/issues/13
 autocmd FileType netrw setl bufhidden=delete 
-let g:netrw_list_hide='.*\.swp$,.*\.pyc'
+let g:netrw_list_hide='.*\.swp$,^.*\.pyc$'
 
 let g:markdown_fenced_languages = ['c', 'python', 'scala', 'sql', 'sh', 'perl', 'ruby', 'awk']
 " comment code
