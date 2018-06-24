@@ -1,4 +1,6 @@
 set nocompatible              " vim, not vi. required
+set autoread
+set autowrite " autosave before eg :next and :make
 filetype off                  " required
 
 call plug#begin('~/.vim/plugged')
@@ -11,6 +13,7 @@ Plug 'flazz/vim-colorschemes'
 "Plug 'Shougo/neocomplete.vim'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-markdown'
+Plug 'tpope/vim-fugitive'
 " does not solve the symlink issue in tree view but hey, it's a later version
 Plug 'eiginn/netrw'
 " generic programming support
@@ -94,7 +97,7 @@ let g:markdown_fenced_languages = ['c', 'python', 'scala', 'sql', 'sh', 'perl', 
 autocmd FileType python,sh noremap <Leader>c :normal U# <Esc>
 autocmd FileType vim noremap <Leader>c :normal U" <Esc>
 
-"buffer stuff
+"buffer stuff 
 :nnoremap <Leader>b :ls<CR>
 :nnoremap <Leader>en :e ~/notes.md<CR>
 :nnoremap <Leader>ev :e ~/.vimrc<CR>
