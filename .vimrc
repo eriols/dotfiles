@@ -43,6 +43,7 @@ set guifont=Inconsolata\ for\ Powerline:h15
 let g:airline_powerline_fonts = 1
 let g:airline_section_x = ''
 let g:airline_theme='bubblegum'
+let g:airline#extensions#tabline#enabled = 1
 
 set encoding=utf-8
 set t_Co=256
@@ -78,12 +79,11 @@ set formatoptions=qrn1tco
 set textwidth =0 wrapmargin=0
 set hidden
  
-
 " netrw things
 let g:netrw_liststyle=3
 " https://github.com/tpope/vim-vinegar/issues/13
 autocmd FileType netrw setl bufhidden=delete 
-let g:netrw_list_hide='.*\.swp$,^.*\.pyc$'
+let g:netrw_list_hide='^.*\.swp$,^.*\.pyc$'
 
 let g:markdown_fenced_languages = ['c', 'python', 'scala', 'sql', 'sh', 'perl', 'ruby', 'awk']
 " comment code
