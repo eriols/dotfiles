@@ -4,13 +4,11 @@ set autowrite " autosave before eg :next and :make
 filetype off                  " required
 
 call plug#begin('~/.vim/plugged')
-
-" more lightweight than Powerline
-Plug 'bling/vim-airline'
-"Plug 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plug 'flazz/vim-colorschemes'
+" more lightweight than Powerline
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " utility
-"Plug 'Shougo/neocomplete.vim'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-fugitive'
@@ -23,18 +21,10 @@ Plug 'hdima/python-syntax'
 
 " All of your Plugins must be added before the following line
 call plug#end()
-"call vundle#end()            " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 " show linenumbers
 set number
@@ -48,13 +38,19 @@ set laststatus=2
 set cursorline
 
 set guifont=Inconsolata\ for\ Powerline:h15
-let g:Powerline_symbols = 'fancy'
+"let g:Powerline_symbols = 'fancy'
+" airline
+let g:airline_powerline_fonts = 1
+let g:airline_section_x = ''
+let g:airline_theme='bubblegum'
+
 set encoding=utf-8
 set t_Co=256
 set fillchars+=stl:\ ,stlnc:\
 set term=xterm-256color
 set termencoding=utf-8
 set backspace=indent,eol,start
+colorscheme bubblegum
 
 " macvim
 if has("gui_running")
@@ -69,9 +65,6 @@ if (has("termguicolors"))
 endif
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-syntax enable
-colorscheme molokai
-
 let mapleader = ' '
 
 " old own stuff
