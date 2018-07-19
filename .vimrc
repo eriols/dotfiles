@@ -80,7 +80,7 @@ set textwidth =0 wrapmargin=0
 set hidden
  
 " netrw things
-let g:netrw_liststyle=3
+let g:netrw_liststyle=1
 " https://github.com/tpope/vim-vinegar/issues/13
 autocmd FileType netrw setl bufhidden=delete 
 let g:netrw_list_hide='^.*\.swp$,^.*\.pyc$'
@@ -94,4 +94,7 @@ autocmd FileType vim noremap <Leader>c :normal U" <Esc>
 :nnoremap <Leader>b :ls<CR>
 :nnoremap <Leader>en :e ~/notes.md<CR>
 :nnoremap <Leader>ev :e ~/.vimrc<CR>
+
+"visuals
+vnoremap // y/<C-R>"<CR>
 
