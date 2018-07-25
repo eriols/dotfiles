@@ -12,12 +12,14 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
 " does not solve the symlink issue in tree view but hey, it's a later version
 Plug 'eiginn/netrw'
 " generic programming support
 " languages
 Plug 'justinmk/vim-syntax-extra'
 Plug 'hdima/python-syntax'
+Plug 'Valloric/YouCompleteMe'
 
 " All of your Plugins must be added before the following line
 call plug#end()
@@ -70,6 +72,7 @@ let mapleader = ' '
 
 " old own stuff
 set history=1000
+" global settings for file not overriden in ftplugin
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -86,9 +89,6 @@ autocmd FileType netrw setl bufhidden=delete
 let g:netrw_list_hide='^.*\.swp$,^.*\.pyc$'
 
 let g:markdown_fenced_languages = ['c', 'python', 'scala', 'sql', 'sh', 'perl', 'ruby', 'awk']
-" comment code
-autocmd FileType python,sh noremap <Leader>c :normal U# <Esc>
-autocmd FileType vim noremap <Leader>c :normal U" <Esc>
 
 "buffer stuff 
 :nnoremap <Leader>b :ls<CR>
@@ -97,4 +97,7 @@ autocmd FileType vim noremap <Leader>c :normal U" <Esc>
 
 "visuals
 vnoremap // y/<C-R>"<CR>
+
+" save session when exiting
+au VimLeavePre * if v:this_session != '' | exec "mks! " . v:this_session | endif
 
