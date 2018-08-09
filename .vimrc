@@ -81,16 +81,18 @@ set nowrap
 set formatoptions=qrn1tco
 set textwidth =0 wrapmargin=0
 set hidden
- 
+set shortmess+=A
+" strip trailing whitespace
+autocmd BufWritePre * %s/\s\+$//e
+
 " netrw things
-let g:netrw_liststyle=1
 " https://github.com/tpope/vim-vinegar/issues/13
-autocmd FileType netrw setl bufhidden=delete 
+autocmd FileType netrw setl bufhidden=delete
 let g:netrw_list_hide='^.*\.swp$,^.*\.pyc$'
 
 let g:markdown_fenced_languages = ['c', 'python', 'scala', 'sql', 'sh', 'perl', 'ruby', 'awk']
 
-"buffer stuff 
+"buffer stuff
 :nnoremap <Leader>b :ls<CR>
 :nnoremap <Leader>en :e ~/notes.md<CR>
 :nnoremap <Leader>ev :e ~/.vimrc<CR>
