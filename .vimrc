@@ -36,8 +36,6 @@ set ruler
 set laststatus=2
 " elite mode, no arrows
 "let g:elite_mode=1
-" enable highlighting of current line
-set cursorline
 
 set guifont=Inconsolata\ for\ Powerline:h15
 "let g:Powerline_symbols = 'fancy'
@@ -97,6 +95,7 @@ let g:markdown_fenced_languages = ['c', 'python', 'scala', 'sql', 'sh', 'perl', 
 :nnoremap <Leader>en :e ~/notes.md<CR>
 :nnoremap <Leader>ev :e ~/.vimrc<CR>
 
+nnoremap <leader>pdb Oimport pdb; pdb.set_trace()<Esc>
 "visuals
 vnoremap // y/<C-R>"<CR>
 
