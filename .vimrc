@@ -13,6 +13,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " does not solve the symlink issue in tree view but hey, it's a later version
 Plug 'eiginn/netrw'
 " generic programming support
@@ -66,7 +67,7 @@ if (has("termguicolors"))
 endif
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-let mapleader = ' '
+let mapleader = ','
 
 " old own stuff
 set history=1000
@@ -95,6 +96,7 @@ let g:markdown_fenced_languages = ['c', 'python', 'scala', 'sql', 'sh', 'perl', 
 :nnoremap <Leader>en :e ~/notes.md<CR>
 :nnoremap <Leader>ev :e ~/.vimrc<CR>
 
+nnoremap <C-p> :<C-u>FZF<CR>
 nnoremap <leader>pdb Oimport pdb; pdb.set_trace()<Esc>
 "visuals
 vnoremap // y/<C-R>"<CR>
