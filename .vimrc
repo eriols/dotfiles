@@ -14,6 +14,7 @@ Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 " does not solve the symlink issue in tree view but hey, it's a later version
 Plug 'eiginn/netrw'
 " generic programming support
