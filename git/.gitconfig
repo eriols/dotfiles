@@ -14,11 +14,11 @@
     whitespace = red reverse
 
 [alias]
-    ci = commit
+    c = commit
     co = checkout
     df = diff
     dc = diff --cached
-    lol = log --graph --pretty=format:'%C("#ff69b4")%h%C(reset) %C(magenta)%d%C(reset) %s %C("#ff9F96")(%cd)%C("#808080")(%cn)%C(reset)' --abbrev-commit --date=short
+    lol = log --graph --pretty=format:'%C("#ff69b4")%h%C(reset) %C(magenta)%d%C(reset) %s %C("#ff9F96")(%cd)%C("#808080")(%cn)%C(reset)' --abbrev-commit --date=iso
     lg = log --format='%C(yellow)%h%C(reset) -%C(red bold)%d%C(reset) %s %C(green)(%cr) %C(cyan)<%an>%C(reset)' --graph
     pr = pull-request
     rb = rebase
@@ -29,6 +29,7 @@
     sts = status -s
     sp = status --porcelain
 	ctags = !.git/hooks/ctags
+    bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -n1 git branch -d; }; f"
 
 [push]
 	default = simple
