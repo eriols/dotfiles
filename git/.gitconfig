@@ -18,7 +18,7 @@
     co = checkout
     df = diff
     dc = diff --cached
-    lol = log --graph --pretty=format:'%C("#ff69b4")%h%C(reset) %C(magenta)%d%C(reset) %s %C("#ff9F96")(%cd)%C("#808080")(%cn)%C(reset)' --abbrev-commit --date=iso
+    lol = log --graph --pretty=format:'%C("#EFFEEC")%h%C(reset) %C("#98CE8F")%d%C(reset) %s %C("#ff9F96")(%cd)%C("#808080")(%cn)%C(reset)' --abbrev-commit --date=iso
     lg = log --format='%C(yellow)%h%C(reset) -%C(red bold)%d%C(reset) %s %C(green)(%cr) %C(cyan)<%an>%C(reset)' --graph
     pr = pull-request
     rb = rebase
