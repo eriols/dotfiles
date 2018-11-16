@@ -5,9 +5,15 @@ fi
 
 #PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH.
 export TERM=tmux-256color
-export PATH=/usr/local/git/bin:/usr/local/sbin:/usr/local/go/bin:$PATH
+export PATH=/usr/local/git/bin:/usr/local/sbin:/usr/local/go/bin:~/bin:$PATH
+if [ -d /usr/local/texlive/2018basic/bin/x86_64-darwin/ ]; then
+    export PATH=/usr/local/texlive/2018basic/bin/x86_64-darwin:$PATH
+fi
 export TMOUT=259200 # 72h
 export GREP_COLOR='1;35;40'
+export FZF_DEFAULT_COMMAND='git ls-files'
+export PLAN9="/Users/erikolsson/9/plan9port"
+export PATH="$PATH:$PLAN9/bin"
 alias ep='export PYTHONPATH=.'
 alias sov='pmset sleepnow'
 alias git='/usr/local/bin/git'
@@ -25,3 +31,5 @@ fi
 if [ -f ~/.inputrc ]; then
 	bind -f ~/.inputrc
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
