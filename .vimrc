@@ -5,7 +5,6 @@ filetype off                  " required
 
 call plug#begin('~/.vim/plugged')
 Plug 'flazz/vim-colorschemes'
-" more lightweight than Powerline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " utility
@@ -40,7 +39,6 @@ set laststatus=2
 "let g:elite_mode=1
 
 set guifont=Inconsolata\ for\ Powerline:h15
-"let g:Powerline_symbols = 'fancy'
 " airline
 let g:airline_powerline_fonts = 1
 let g:airline_section_x = ''
@@ -53,7 +51,7 @@ set fillchars+=stl:\ ,stlnc:\
 set term=xterm-256color
 set termencoding=utf-8
 set backspace=indent,eol,start
-colorscheme bubblegum
+colorscheme bubblegum-256-dark
 
 " macvim
 if has("gui_running")
@@ -97,10 +95,16 @@ let g:markdown_fenced_languages = ['c', 'python', 'scala', 'sql', 'sh', 'perl', 
 :nnoremap <Leader>en :e ~/notes.md<CR>
 :nnoremap <Leader>ev :e ~/.vimrc<CR>
 
+"turn off search highlight with enter
+nnoremap <silent> <CR> :nohlsearch<CR><CR>
 nnoremap <C-p> :<C-u>FZF<CR>
 nnoremap <leader>pdb Oimport pdb; pdb.set_trace()<Esc>
 "visuals
 vnoremap // y/<C-R>"<CR>
+
+"highlight line we're on
+:hi CursorLine term=NONE ctermbg=lightgray ctermfg=black guibg=lightgray guifg=black
+nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 
 " save session when exiting
 au VimLeavePre * if v:this_session != '' | exec "mks! " . v:this_session | endif
