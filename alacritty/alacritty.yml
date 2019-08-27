@@ -3,14 +3,8 @@
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty itself.
-#env:
-  # TERM variable
-  #
-  # This value is used to set the `$TERM` environment variable for
-  # each instance of Alacritty. If it is not present, alacritty will
-  # check the local terminfo database and use `alacritty` if it is
-  # available, otherwise `xterm-256color` is used.
-  #TERM: xterm-256color
+env:
+    TERM: xterm-256color
 
 window:
   # Window dimensions (changes require restart)
@@ -19,7 +13,7 @@ window:
   # If both are `0`, this setting is ignored.
   dimensions:
     columns: 125
-    lines: 70
+    lines: 60
 
   # Window position (changes require restart)
   #
@@ -84,46 +78,21 @@ scrolling:
 # change the `it` value in terminfo when altering this setting.
 tabspaces: 8
 
-# Font configuration (changes require restart)
+# Font configuration (changes require restart of alacritty)
 font:
-  # Normal (roman) font face
   normal:
-    # Font family
-    #
-    # Default:
-    #   - (macOS) Menlo
-    #   - (Linux) monospace
-    #   - (Windows) Consolas
-    family: "Inconsolata for Powerline"
-    #family: monospace
+    family: SauceCodePro Nerd Font
+    style: Regular
 
-    # The `style` can be specified to pick a specific face.
-    #style: Regular
+  bold:
+    family: SauceCodePro Nerd Font
+    style: Bold
 
-  # Bold font face
-  #bold:
-    # Font family
-    #
-    # If the bold family is not specified, it will fall back to the
-    # value specified for the normal font.
-    #family: monospace
+  italic:
+    family: SauceCodePro Nerd Font
+    style: Italic
 
-    # The `style` can be specified to pick a specific face.
-    #style: Bold
-
-  # Italic font face
-  #italic:
-    # Font family
-    #
-    # If the italic family is not specified, it will fall back to the
-    # value specified for the normal font.
-    #family: monospace
-
-    # The `style` can be specified to pick a specific face.
-    #style: Italic
-
-  # Point size
-  size: 14.0
+  size: 11.0
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
@@ -490,7 +459,7 @@ key_bindings:
   #- { key: Q,      mods: Command, action: Quit             }
   #- { key: W,      mods: Command, action: Quit             }
 
-  - { key: N, mods: Command, action: SpawnNewInstance                        }
+  - { key: N, mods: Control, action: SpawnNewInstance                        }
   - { key: B, mods: Alt, chars: "\x1bB"                                      }
   - { key: D, mods: Alt, chars: "\x1bD"                                      }
   - { key: F, mods: Alt, chars: "\x1bF"                                      }
