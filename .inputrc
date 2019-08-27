@@ -1,2 +1,4 @@
-"\t": complete
+# bind -f ~/.inputrc
+#
+TAB: complete
 "\e[Z": menu-complete
