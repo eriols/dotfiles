@@ -34,10 +34,12 @@ filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
-" Put your non-Plugin stuff after this line
 " show linenumbers
 set number
 set ruler
+
+" fugitive stopped updating the tags
+set tags+=.git/tags
 
 " always show the status line
 set laststatus=2
