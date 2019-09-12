@@ -3,8 +3,9 @@ if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
 
-#PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH.
-export TERM=tmux-256color
+source ~/.bash_git
+
+export TERM=xterm-256color
 export PATH=/usr/local/git/bin:/usr/local/sbin:/usr/local/go/bin:~/bin:$PATH
 if [ -d /usr/local/texlive/2018basic/bin/x86_64-darwin/ ]; then
     export PATH=/usr/local/texlive/2018basic/bin/x86_64-darwin:$PATH
@@ -12,11 +13,6 @@ fi
 export TMOUT=259200 # 72h
 export GREP_COLOR='1;35;40'
 export FZF_DEFAULT_COMMAND='git ls-files'
-export PLAN9="/Users/erikolsson/9/plan9port"
-export PATH="$PATH:$PLAN9/bin"
-alias ep='export PYTHONPATH=.'
-alias sov='pmset sleepnow'
-alias git='/usr/local/bin/git'
 
 if [ -x /usr/bin/dircolors ]; then
     eval "`dircolors -b`"
@@ -32,4 +28,13 @@ if [ -f ~/.inputrc ]; then
 	bind -f ~/.inputrc
 fi
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+function set_virtualenv () {
+  if test -z "$VIRTUAL_ENV" ; then
+      PYTHON_VIRTUALENV=""
+  else
+      PYTHON_VIRTUALENV="${BLUE}[`basename \"$VIRTUAL_ENV\"`]${COLOR_NONE} "
+  fi
+  }
+
+
+PS1='$(set_virtualenv)\[\033[0;32m\]\[\033[0m\033[0;32m\]\u\[\033[0;36m\] @ \[\033[0;36m\]\h \w\[\033[0;32m\]$(__git_ps1)\n\[\033[0;32m\]└─\[\033[0m\033[0;32m\] \$\[\033[0m\033[0;32m\] ▶\[\033[0m\] '
