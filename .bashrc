@@ -6,13 +6,13 @@ fi
 source ~/.bash_git
 
 export TERM=xterm-256color
-export PATH=/usr/local/git/bin:/usr/local/sbin:/usr/local/go/bin:~/bin:$PATH
-if [ -d /usr/local/texlive/2018basic/bin/x86_64-darwin/ ]; then
-    export PATH=/usr/local/texlive/2018basic/bin/x86_64-darwin:$PATH
-fi
+export PATH=/usr/local/git/bin:/usr/local/sbin:~/bin:$PATH
 export TMOUT=259200 # 72h
 export GREP_COLOR='1;35;40'
 export FZF_DEFAULT_COMMAND='git ls-files'
+# java
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+export PATH=$PATH:$JAVA_HOME/bin
 
 if [ -x /usr/bin/dircolors ]; then
     eval "`dircolors -b`"
@@ -22,10 +22,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep="$(which grep) --color=always"
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
-fi
-
-if [ -f ~/.inputrc ]; then
-	bind -f ~/.inputrc
 fi
 
 function set_virtualenv () {
