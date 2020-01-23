@@ -11,6 +11,7 @@ endif
 
 call plug#begin('~/.vim/plugged')
 Plug 'flazz/vim-colorschemes'
+Plug 'fxn/vim-monochrome'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " utility
@@ -33,6 +34,7 @@ call plug#end()
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
+let g:linuxsty_patterns = [ "/esdk/", "/git/" ]
 "
 " show linenumbers
 set number
@@ -44,28 +46,28 @@ set tags+=.git/tags
 " always show the status line
 set laststatus=2
 " elite mode, no arrows
-"let g:elite_mode=1
+let g:elite_mode=1
 
-set guifont=Inconsolata\ for\ Powerline:h15
+set guifont=Terminus
+" set guifont=Inconsolata\ for\ Powerline:h15
 " airline
 let g:airline_powerline_fonts = 1
 let g:airline_section_x = ''
-let g:airline_theme='bubblegum'
+let g:airline_theme='monochrome'
 let g:airline#extensions#tabline#enabled = 1
 
 set encoding=utf-8
-set t_Co=256
 set fillchars+=stl:\ ,stlnc:\
 set term=xterm-256color
 set termencoding=utf-8
 set backspace=indent,eol,start
-colorscheme bubblegum-256-dark
+colorscheme monochrome
 
 " macvim
 if has("gui_running")
     let s:uname = system("uname")
     if s:uname == "Darwin\n"
-        set guifont=Inconsolata\ for\ Powerline:h15
+        set guifont=Terminus
     endif
 endif
 
