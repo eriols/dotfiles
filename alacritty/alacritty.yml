@@ -13,7 +13,7 @@ window:
   # If both are `0`, this setting is ignored.
   dimensions:
     columns: 125
-    lines: 60
+    lines: 50
 
   # Window position (changes require restart)
   #
@@ -64,7 +64,7 @@ scrolling:
   # to allow mouse scrolling for applications like `man`.
   #
   # Specifying `0` will disable faux scrolling.
-  faux_multiplier: 3
+  # faux_multiplier: 3
 
   # Scroll to the bottom when new text is written to the terminal.
   auto_scroll: false
@@ -81,18 +81,20 @@ tabspaces: 8
 # Font configuration (changes require restart of alacritty)
 font:
   normal:
-    family: SauceCodePro Nerd Font
+    family: Terminus
     style: Regular
 
   bold:
-    family: SauceCodePro Nerd Font
+    family: Terminus
     style: Bold
 
   italic:
-    family: SauceCodePro Nerd Font
+    family: Terminus
     style: Italic
 
-  size: 11.0
+  # runing alacritty -vvv shows a Device pixel ratio of 1.75, so fiddle more with this
+  # 13.5 with gnome
+  size: 9
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
@@ -459,7 +461,7 @@ key_bindings:
   #- { key: Q,      mods: Command, action: Quit             }
   #- { key: W,      mods: Command, action: Quit             }
 
-  - { key: N, mods: Control, action: SpawnNewInstance                        }
+  - { key: N, mods: Alt, action: SpawnNewInstance                        }
   - { key: B, mods: Alt, chars: "\x1bB"                                      }
   - { key: D, mods: Alt, chars: "\x1bD"                                      }
   - { key: F, mods: Alt, chars: "\x1bF"                                      }
