@@ -14,24 +14,27 @@
     whitespace = red reverse
 
 [alias]
+    bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -n1 git branch -d; }; f"
+    bs = branch --sort='-authordate:iso8601'
     c = commit
     co = checkout
+    ctags = !.git/hooks/ctags
     df = diff
     dc = diff --cached
     lol = log --graph --pretty=format:'%C("#EFFEEC")%h%C(reset) %C("#98CE8F")%d%C(reset) %s %C("#ff9F96")(%cd)%C("#808080")(%cn)%C(reset)' --abbrev-commit --date=iso
     lg = log --format='%C(yellow)%h%C(reset) -%C(red bold)%d%C(reset) %s %C(green)(%cr) %C(cyan)<%an>%C(reset)' --graph
     pr = pull-request
     rb = rebase
+    rbum = pull --rebase upstream master
     ri = rebase -i
     rw = rewind
-    sh = show HEAD
     st = status
     sts = status -s
     sp = status --porcelain
-	ctags = !.git/hooks/ctags
-    bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -n1 git branch -d; }; f"
 
 [push]
 	default = simple
+[rerere]
+    enabled = true
 [init]
 	templatedir = ~/.git_template
