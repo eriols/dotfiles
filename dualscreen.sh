@@ -6,7 +6,6 @@ set -u
 
 main() {
     ext_monitor=$(xrandr | grep -oP '\K^DP-\d(?= connected)')
-    # ext_monitor=$(xrandr | perl -nle 'print $1 if /(^DP-\d) connected/')
     if test -n "${ext_monitor:-}"
     then
         param $1
