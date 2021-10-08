@@ -1,4 +1,3 @@
-# alias i egen fil
 if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
@@ -13,6 +12,11 @@ export FZF_DEFAULT_COMMAND='git ls-files'
 # java
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
 export PATH=$PATH:$JAVA_HOME/bin
+# no limit on history
+export HISTFILESIZE=
+export HISTSIZE=
+# share history across sessions
+shopt -s histappend
 
 if [ -x /usr/bin/dircolors ]; then
     eval "`dircolors -b`"
@@ -35,3 +39,4 @@ function set_virtualenv () {
 setxkbmap -layout 'us(intl-unicode)' -option ctrl:nocaps
 
 PS1='${PYTHON_VIRTUALENV}\[\033[0;32m\]\[\033[0m\033[0;32m\]\u\[\033[0;36m\] @ \[\033[0;36m\]\h \w\[\033[0;32m\]$(__git_ps1)\n\[\033[0;32m\]└─\[\033[0m\033[0;32m\] \$\[\033[0m\033[0;32m\] ▶\[\033[0m\] '
+. "$HOME/.cargo/env"
