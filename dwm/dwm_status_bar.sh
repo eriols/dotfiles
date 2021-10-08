@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-export IDENTIFIER="not unicode" # how enable this in the bar?
+export IDENTIFIER="unicode"
 export SEP="|"
 
 dwm_battery () {
