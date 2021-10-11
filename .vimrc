@@ -1,6 +1,11 @@
 set nocompatible              " vim, not vi. required
 set autoread
 set autowrite " autosave before eg :next and :make
+set noswapfile
+set nobackup
+set undodir=~/.vim/undodir
+set undofile
+set incsearch
 filetype off                  " required
 
 if empty(glob('~/.vim/autoload/plug.vim'))
