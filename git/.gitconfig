@@ -26,9 +26,9 @@
     lg = log --format='%C(yellow)%h%C(reset) -%C(red bold)%d%C(reset) %s %C(green)(%cr) %C(cyan)<%an>%C(reset)' --graph
     pr = pull-request
     rb = rebase
+    rbc = rebase --continue
     rbum = pull --rebase upstream master
     ri = rebase -i
-    rw = rewind
     st = status
     sts = status -s
     sp = status --porcelain
