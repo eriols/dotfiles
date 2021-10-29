@@ -6,6 +6,7 @@ set nobackup
 set undodir=~/.vim/undodir
 set undofile
 set incsearch
+set hlsearch
 filetype off                  " required
 
 if empty(glob('~/.vim/autoload/plug.vim'))
