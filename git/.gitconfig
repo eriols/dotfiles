@@ -15,6 +15,7 @@
 
 [alias]
     bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -n1 git branch -d; }; f"
+    bname = branch --show-current
     bs = branch --sort='-authordate:iso8601'
     c = commit
     ca = commit --amend
