@@ -17,13 +17,14 @@
     bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -n1 git branch -d; }; f"
     bs = branch --sort='-authordate:iso8601'
     c = commit
+    ca = commit --amend
     can = commit --amend --no-edit
     co = checkout
     ctags = !.git/hooks/ctags
     df = diff
     dc = diff --cached
-    lol = log --graph --pretty=format:'%C("#EFFEEC")%h%C(reset) %C("#98CE8F")%d%C(reset) %s %C("#ff9F96")(%cd)%C("#808080")(%cn)%C(reset)' --abbrev-commit --date=iso
-    lg = log --format='%C(yellow)%h%C(reset) -%C(red bold)%d%C(reset) %s %C(green)(%cr) %C(cyan)<%an>%C(reset)' --graph
+    lol = log --graph --pretty=format:'%C(dim white)%h%C(reset) %C("#98CE8F")%d%C(reset) %C(white)%s%C(reset) %C("#ff9F96")(%ai)%C("#CCFFCC")(%an)%C(reset)' --abbrev-commit
+    lg =  log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(dim green)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
     pr = pull-request
     rb = rebase
     rbc = rebase --continue
@@ -39,3 +40,5 @@
     enabled = true
 [init]
 	templatedir = ~/.git_template
+[pull]
+	twohead = ort
