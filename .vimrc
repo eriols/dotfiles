@@ -18,8 +18,7 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'flazz/vim-colorschemes'
 Plug 'fxn/vim-monochrome'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 " utility
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-markdown'
@@ -33,6 +32,7 @@ Plug 'eiginn/netrw'
 " languages
 Plug 'justinmk/vim-syntax-extra'
 Plug 'hdima/python-syntax'
+Plug 'luochen1990/rainbow'
 Plug 'Valloric/YouCompleteMe'
 
 " All of your Plugins must be added before the following line
@@ -56,17 +56,25 @@ let g:elite_mode=1
 
 set guifont=Terminus
 " set guifont=Inconsolata\ for\ Powerline:h15
-" airline
-let g:airline_powerline_fonts = 1
-let g:airline_section_x = ''
-let g:airline_theme='monochrome'
-let g:airline#extensions#tabline#enabled = 1
+" lightline
+let g:lightline = {
+      \ 'colorscheme': 'nord',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ], [ 'gitstatus', 'filename' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitstatus': 'FugitiveHead'
+      \ },
+      \ }
+
+let g:rainbow_active = 1 " :RainbowToggle
 
 set encoding=utf-8
 set fillchars+=stl:\ ,stlnc:\
 set term=xterm-256color
 set termencoding=utf-8
 set backspace=indent,eol,start
+let g:monochrome_italic_comments = 1
 colorscheme monochrome
 
 " macvim
@@ -104,11 +112,11 @@ autocmd BufWritePre * %s/\s\+$//e
 autocmd FileType netrw setl bufhidden=delete
 let g:netrw_list_hide='^.*\.swp$,^.*\.pyc$'
 
-let g:markdown_fenced_languages = ['c', 'python', 'scala', 'sql', 'sh', 'perl', 'ruby', 'awk']
+let g:markdown_fenced_languages = ['c', 'python', 'sql', 'sh', 'perl', 'ruby', 'awk']
 
 "buffer stuff
 :nnoremap <Leader>b :ls<CR>
-:nnoremap <Leader>en :e ~/notes.md<CR>
+:nnoremap <Leader>en :e ~/notes.txt<CR>
 :nnoremap <Leader>ev :e ~/.vimrc<CR>
 
 "turn off search highlight with enter
@@ -125,3 +133,19 @@ nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 " save session when exiting
 au VimLeavePre * if v:this_session != '' | exec "mks! " . v:this_session | endif
 
+" Add format option 'w' to add trailing white space, indicating that paragraph
+" continues on next line. This is to be used with mutt's 'text_flowed' option.
+augroup mail_trailing_whitespace " {
+    autocmd!
+    autocmd FileType mail setlocal formatoptions+=w
+augroup END " }
+
+fun! ShowFuncName()
+  let lnum = line(".")
+  let col = col(".")
+  echohl ModeMsg
+  echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
+  echohl None
+  call search("\\%" . lnum . "l" . "\\%" . col . "c")
+endfun
+:map <leader>f :call ShowFuncName()<CR>
