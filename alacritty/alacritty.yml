@@ -89,6 +89,7 @@ font:
     style: Bold
 
   italic:
+    # Terminus does not have an italic font
     family: Terminus
     style: Italic
 
