@@ -85,7 +85,10 @@ if has("gui_running")
     endif
 endif
 
-if (has("termguicolors"))
+if exists("$TMUX")
+    set t_Co=256
+    set notermguicolors
+else
     set termguicolors
 endif
 
