@@ -1,0 +1,60 @@
+# source default account config
+# gpg --recipient olsson --encrypt ~/.mutt/.my-pwds
+source "gpg -dq ~/.mutt/.my-pwds.gpg |"
+# gmail stuff
+set from = "erik.eo.olsson@gmail.com"
+set realname = "Erik Olsson"
+# imap
+set imap_user = "erik.eo.olsson@gmail.com"
+set imap_pass=$my_pass
+# smtp
+set smtp_url = "smtp://$imap_user@smtp.gmail.com:587/"
+set smtp_pass=$my_pass
+# remote gmail folders
+set folder = imaps://imap.gmail.com/
+set spoolfile = "+INBOX"
+set postponed="+[GMAIL]/Drafts"
+set record="+[GMAIL]/Sent Mail"
+set trash="+[GMAIL]/Bin"
+# end gmail
+set index_format = "%4C %Z %?X?📎&  ? %{%F %R} %-15.15L %?M?(#%03M)&(%4c)? %?y?(%.20Y) ?%s"
+# set mbox="imaps://imap.gmail.com/[Gmail]/All Mail"
+set header_cache = "~/.mutt/cache/headers"
+set message_cachedir = "~/.mutt/cache/bodies"
+set certificate_file = "~/.mutt/certificates"
+set ssl_starttls=yes
+set ssl_force_tls = yes
+set text_flowed # handle wrapping, supplemented by vimrc setting too
+set abort_nosubject = no
+set mail_check = 60
+set timeout = 10
+set sort = "reverse-date-received"
+set signature = "~/.mutt/signature"
+set copy = no
+set editor="vim +':set textwidth=0' +':set wrapmargin=0' +':set wrap'"
+set edit_headers = yes  # See the headers when editing
+set charset = UTF-8     # value of $LANG; also fallback for send_charset
+# Sender, email address, and sign-off line must match
+unset use_domain        # because joe@localhost is just embarrassing
+set use_from = yes
+# macros
+# vim style
+bind generic             gg        first-entry
+bind generic,index       G         last-entry
+bind pager               gg        top
+bind pager               G         bottom
+bind generic             zt        current-top
+bind generic             zz        current-middle
+bind generic             zb        current-bottom
+bind index,pager         N         search-opposite
+#
+bind  index,pager        a         group-reply
+bind editor <space> noop # allows space in folder names below
+macro index,pager        d ";s+[Gmail]/Bin<enter><enter>" "Move to Gmail's Trash"
+macro index              ga "<change-folder>=[Gmail]/All Mail<enter>"  "go to all mail"
+macro index              gd "<change-folder>=[Gmail]/Drafts<enter>" "go to drafts"
+macro index              gs "<change-folder>=[Gmail]/Starred<enter>" "Go to 'Starred'"
+macro index              go "<change-folder>=[Gmail]/Sent Mail<enter>" "Go to Sent Mail"
+macro index              gi "<change-folder>$spoolfile<Enter>" "go to inbox"
+macro index,pager        A "<save-message>=[Gmail]/All Mail<enter>" "archive message"
+# offlineimap sen för att ladda ner
