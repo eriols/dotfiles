@@ -126,6 +126,8 @@ let g:markdown_fenced_languages = ['c', 'python', 'sql', 'sh', 'perl', 'ruby', '
 nnoremap <silent> <CR> :nohlsearch<CR><CR>
 nnoremap <C-p> :<C-u>FZF<CR>
 nnoremap <leader>pdb Oimport pdb; pdb.set_trace()<Esc>
+" visually select previously yanked or changed
+nnoremap <leader>vps `[v`]
 "visuals
 vnoremap // y/<C-R>"<CR>
 
