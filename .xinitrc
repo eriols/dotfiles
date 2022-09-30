@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 # avoid the Device pixel ratio issue with alacritty
 WINIT_HIDPI_FACTOR=1.0
@@ -8,6 +8,8 @@ start-pulseaudio-x11 &
 if [ -d /snap/bin ]; then
     export PATH=/snap/bin:$PATH
 fi
+
+setxkbmap -layout 'us(intl-unicode)'
 
 dwm_status_bar &
 exec start_dwm
