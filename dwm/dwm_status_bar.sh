@@ -21,10 +21,9 @@ dwm_battery () {
 }
 
 while true; do
-    dt=$(date -Ins | awk -F"[T,]" '{print $1, $2}')
-	# print sound volume in percent
-	vol=$(amixer sget Master | grep % | awk '{print $4}')
+    dt="$(date +'%Y-%m-%d %H:%M')"
+    vol=$(amixer sget Master | grep -oP '\K\d+%' | sed 1q)
     network=$(nmcli networking connectivity)
-    xsetroot -name "$(dwm_battery) volume $vol nw $network $dt"
+    xsetroot -name "$(dwm_battery) volume: $vol nw: $network $dt"
     sleep 1s
 done

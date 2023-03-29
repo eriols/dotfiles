@@ -6,6 +6,9 @@
 #/usr/bin/feh --bg-center 'IMAGE PATH HERE'
 # If xautolocal was installed, this can be uncommented.
 #/usr/bin/xautolock -locker /usr/local/bin/slock -detectsleep -secure -time 10 &
-/usr/local/bin/slstatus &
-/usr/local/bin/dwm
-
+#
+# xrandr stuff here too possibly, xinput ger?
+setxkbmap -layout 'us(intl-unicode)'
+dwm_status_bar &
+# /usr/local/bin/slstatus &
+exec start_dwm

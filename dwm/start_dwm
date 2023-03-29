@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 while true; do
-    /usr/local/bin/dwm 2> ~/.logs/dwm.log
+    /usr/local/bin/dwm 2> ~/.dwm_logs.txt
 done
 
