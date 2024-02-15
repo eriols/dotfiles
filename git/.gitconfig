@@ -35,12 +35,13 @@
     st = status
     sts = status -s
     sp = status --porcelain
+    stasha = stash -a
 
 [push]
 	default = simple
 [rerere]
     enabled = true
 [init]
-	templatedir = ~/.git_template
+    templateDir = /home/olsson/.git_template/
 [pull]
 	twohead = ort
