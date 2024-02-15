@@ -18,5 +18,6 @@ if [ -z "$SSH_AGENT" ] && [ -z "$SSH_AUTH_SOCK" ] && [ -z "$SSH_AGENT_PID" ] && 
     fi
 fi
 
+[ -x $(which xscreensaver) ] && xscreensaver &
 dwm_status_bar &
 exec start_dwm
