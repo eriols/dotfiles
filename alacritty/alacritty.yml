@@ -95,7 +95,7 @@ font:
 
   # runing alacritty -vvv shows a Device pixel ratio of 1.75, so fiddle more with this
   # 13.5 with gnome
-  size: 10
+  size: 10.0
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
@@ -347,9 +347,6 @@ live_config_reload: true
 # Alacritty will fall back to the WinPTY automatically if the ConPTY
 # backend cannot be initialized.
 enable_experimental_conpty_backend: false
-
-# Send ESC (\x1b) before characters when alt is pressed.
-alt_send_esc: true
 
 # Key bindings
 #
