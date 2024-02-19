@@ -45,3 +45,5 @@
     templateDir = /home/olsson/.git_template/
 [pull]
 	twohead = ort
+[merge]
+	conflictStyle = zdiff3
