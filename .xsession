@@ -10,5 +10,6 @@
 # xrandr stuff here too possibly, xinput ger?
 setxkbmap -layout 'us(intl-unicode)'
 dwm_status_bar &
+dunst &
 # /usr/local/bin/slstatus &
 exec start_dwm
