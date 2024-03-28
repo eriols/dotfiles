@@ -34,6 +34,7 @@ Plug 'justinmk/vim-syntax-extra'
 Plug 'hdima/python-syntax'
 Plug 'luochen1990/rainbow'
 Plug 'Valloric/YouCompleteMe'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 
 " All of your Plugins must be added before the following line
 call plug#end()
@@ -133,11 +134,15 @@ vnoremap // y/<C-R>"<CR>
 
 "highlight line we're on
 :hi CursorLine term=NONE ctermbg=lightgray ctermfg=black guibg=lightgray guifg=black
-nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+nnoremap <leader>c :set cursorline! cursorcolumn!<CR>
 
 " save session when exiting
 au VimLeavePre * if v:this_session != '' | exec "mks! " . v:this_session | endif
-
+"
+" markdown preview
+nmap <leader>s <Plug>MarkdownPreview
+nmap <leader>t <Plug>MarkdownPreviewStop
+nmap <leader>to <Plug>MarkdownPreviewToggle
 " Add format option 'w' to add trailing white space, indicating that paragraph
 " continues on next line. This is to be used with mutt's 'text_flowed' option.
 augroup mail_trailing_whitespace " {
@@ -146,11 +151,8 @@ augroup mail_trailing_whitespace " {
 augroup END " }
 
 fun! ShowFuncName()
-  let lnum = line(".")
-  let col = col(".")
   echohl ModeMsg
-  echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
+  echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bWn'))
   echohl None
-  call search("\\%" . lnum . "l" . "\\%" . col . "c")
 endfun
 :map <leader>f :call ShowFuncName()<CR>
