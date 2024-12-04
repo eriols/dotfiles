@@ -5,7 +5,7 @@ set -u
 # or "d" for dual external monitor/laptop.
 
 main() {
-    ext_monitor=$(xrandr | grep -oP '\K^DP-\d(?= connected)')
+    ext_monitor=$(xrandr | grep -oP '\K^DP-[\d-]+(?= connected)')
     if test -n "${ext_monitor:-}"
     then
         param $1

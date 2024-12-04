@@ -44,7 +44,8 @@ filetype plugin indent on    " required
 let g:linuxsty_patterns = [ "/esdk/", "/git/" ]
 "
 " show linenumbers
-set number
+" set relativenumber
+set nu
 set ruler
 
 " fugitive stopped updating the tags
@@ -156,3 +157,23 @@ fun! ShowFuncName()
   echohl None
 endfun
 :map <leader>f :call ShowFuncName()<CR>
+
+" setup
+if has("cscope")
+    set csto=0
+    set cst
+    set nocsverb
+    " add any database in current directory
+    if filereadable("cscope.out")
+    cs add cscope.out
+    " else add database pointed to by environment
+    elseif $CSCOPE_DB != ""
+    cs add $CSCOPE_DB
+    endif
+    set csverb
+endif
+
+" jump to a function declaration
+nmap <silent> <C-\> :cs find s <C-R>=expand("<cword>")<CR><CR>1<CR><CR>
+" show a list of where function is called
+nmap <silent> <C-_> :cs find c <C-R>=expand("<cword>")<CR><CR>
