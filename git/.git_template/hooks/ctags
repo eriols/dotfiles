@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+PATH="/usr/local/bin:$PATH"
+if [ -x `which cscope` ]; then
+    rm -f cscope.files cscope.out cscope.in.out cscope.po.out
+    git ls-files -- '*.[ch]' '*.java' '*.py' '*.cpp' > cscope.files
+    cscope -b -q -k
+    CSCOPE_DB=cscope.out; export CSCOPE_DB
+else
+    trap 'rm -f "$$.tags"' EXIT
+    CTAGS=`which ctags`
+    git ls-files | \
+        $CTAGS --tag-relative -L - -f"$$.tags" --languages=-javascript,sql
+    mv "$$.tags" "tags"
+fi
