@@ -1,23 +1,26 @@
 #!/usr/bin/env sh
 
-# avoid the Device pixel ratio issue with alacritty
-WINIT_HIDPI_FACTOR=1.0
-# start-pulseaudio-x11 &
+# Avoid device pixel ratio issues with alacritty/winit apps
+export WINIT_HIDPI_FACTOR=1.0
 
-# snap does not seem to get into the dmenu cache, does this help?
-if [ -d /snap/bin ]; then
-    export PATH=/snap/bin:$PATH
+# Ensure a DBus session exists (important for PipeWire/WirePlumber, portals, etc.)
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+  eval "$(dbus-launch --exit-with-session)"
 fi
+
+# Only set XDG_RUNTIME_DIR if it's missing (usually systemd sets this)
+[ -z "$XDG_RUNTIME_DIR" ] && export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+
+# Ensure /snap/bin is in PATH (if present)
+[ -d /snap/bin ] && export PATH="/snap/bin:$PATH"
 
 setxkbmap -layout 'us(intl-unicode)'
-if [ -z "$SSH_AGENT" ] && [ -z "$SSH_AUTH_SOCK" ] && [ -z "$SSH_AGENT_PID" ] && [ -x /bin/ssh-agent ]; then
-    if [ "x$TMPDIR" != "x" ]; then
-	    SSH_AGENT="/bin/ssh-agent /bin/env TMPDIR=$TMPDIR"
-    else
-	    SSH_AGENT="/bin/ssh-agent"
-    fi
-fi
+xset r rate 300 50
 
-[ -x $(which xscreensaver) ] && xscreensaver &
+command -v xscreensaver >/dev/null 2>&1 && xscreensaver &
+
+# Start dunst once
+pgrep -x dunst >/dev/null 2>&1 || dunst &
+
 dwm_status_bar &
 exec start_dwm
