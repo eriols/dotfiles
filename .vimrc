@@ -23,7 +23,6 @@ Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-commentary'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 " does not solve the symlink issue in tree view but hey, it's a later version
@@ -38,6 +37,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' 
 
 " All of your Plugins must be added before the following line
 call plug#end()
+
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
@@ -57,6 +57,8 @@ set laststatus=2
 let g:elite_mode=1
 
 set guifont=Terminus
+
+set showcmd
 " set guifont=Inconsolata\ for\ Powerline:h15
 " lightline
 let g:lightline = {
@@ -78,14 +80,6 @@ set termencoding=utf-8
 set backspace=indent,eol,start
 let g:monochrome_italic_comments = 1
 colorscheme monochrome
-
-" macvim
-if has("gui_running")
-    let s:uname = system("uname")
-    if s:uname == "Darwin\n"
-        set guifont=Terminus
-    endif
-endif
 
 if exists("$TMUX")
     set t_Co=256
@@ -160,20 +154,25 @@ endfun
 
 " setup
 if has("cscope")
+    " set cscopetag
+    " check scope for def before checking ctags
     set csto=0
     set cst
     set nocsverb
     " add any database in current directory
     if filereadable("cscope.out")
-    cs add cscope.out
+        cs add cscope.out
     " else add database pointed to by environment
     elseif $CSCOPE_DB != ""
-    cs add $CSCOPE_DB
+        cs add $CSCOPE_DB
     endif
-    set csverb
+    set cscopeverbose
 endif
 
-" jump to a function declaration
-nmap <silent> <C-\> :cs find s <C-R>=expand("<cword>")<CR><CR>1<CR><CR>
-" show a list of where function is called
-nmap <silent> <C-_> :cs find c <C-R>=expand("<cword>")<CR><CR>
+" Use GNU Global instead of ctags
+set cscopeprg=gtags-cscope
+set cscopetag
+" " jump to a function declaration
+" nmap <silent> <C-\> :cs find s <C-R>=expand("<cword>")<CR><CR>
+" " show a list of where function is called
+" nmap <silent> <C-_> :cs find c <C-R>=expand("<cword>")<CR><CR>
