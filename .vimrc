@@ -75,7 +75,6 @@ let g:rainbow_active = 1 " :RainbowToggle
 
 set encoding=utf-8
 set fillchars+=stl:\ ,stlnc:\
-set term=xterm-256color
 set termencoding=utf-8
 set backspace=indent,eol,start
 let g:monochrome_italic_comments = 1
