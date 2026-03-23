@@ -1,15 +1,29 @@
-#!/bin/sh
+#!/usr/bin/env sh
+
+# Avoid device pixel ratio issues with alacritty/winit apps
+export WINIT_HIDPI_FACTOR=1.0
+
+# Ensure a DBus session exists (important for PipeWire/WirePlumber, portals, etc.)
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+  eval "$(dbus-launch --exit-with-session)"
+fi
+
+# Only set XDG_RUNTIME_DIR if it's missing (usually systemd sets this)
+[ -z "$XDG_RUNTIME_DIR" ] && export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+
+# Ensure /snap/bin is in PATH (if present)
+[ -d /snap/bin ] && export PATH="/snap/bin:$PATH"
 
 /usr/bin/xset b off
 /usr/bin/xsetroot -solid darkslategrey
-# If feh was installed, this can be uncommented.
-#/usr/bin/feh --bg-center 'IMAGE PATH HERE'
-# If xautolocal was installed, this can be uncommented.
-#/usr/bin/xautolock -locker /usr/local/bin/slock -detectsleep -secure -time 10 &
-#
-# xrandr stuff here too possibly, xinput ger?
+
 setxkbmap -layout 'us(intl-unicode)'
+xset r rate 250 50
+
+command -v xscreensaver >/dev/null 2>&1 && xscreensaver &
+
+# Start dunst once
+pgrep -x dunst >/dev/null 2>&1 || dunst &
+
 dwm_status_bar &
-dunst &
-# /usr/local/bin/slstatus &
 exec start_dwm
