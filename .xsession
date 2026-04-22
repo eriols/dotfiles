@@ -22,6 +22,20 @@ xset r rate 250 50
 
 command -v xscreensaver >/dev/null 2>&1 && xscreensaver &
 
+# After xscreensaver unlocks, nudge dwm into re-delivering keyboard
+# focus by warping the pointer into the focused window.
+# Retry with increasing delays to handle resume-from-suspend.
+# Wait for xscreensaver to be ready before connecting the watcher.
+(sleep 2 && xscreensaver-command -watch) | while read -r event _rest; do
+  if [ "$event" = "UNBLANK" ]; then
+    for delay in 0.3 1 2; do
+      sleep "$delay"
+      wid=$(xdotool getactivewindow 2>/dev/null) && \
+        xdotool mousemove --window "$wid" 50 50 2>/dev/null && break
+    done
+  fi
+done &
+
 # Start dunst once
 pgrep -x dunst >/dev/null 2>&1 || dunst &
 
