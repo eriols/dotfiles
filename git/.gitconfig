@@ -24,18 +24,25 @@
     ctags = !.git/hooks/ctags
     df = diff
     dc = diff --cached
-    lol = log --graph --pretty=format:'%C(dim white)%h%C(reset) %C("#98CE8F")%d%C(reset) %C(white)%s%C(reset) %C("#ff9F96")(%ai)%C("#CCFFCC")(%an)%C(reset)' --abbrev-commit
+    lol = log --graph --pretty=format:'%C(dim white)%h%C(reset) %C("#98CE8F")%d%C(reset) %C(white)%s%C(reset) %C("#ff9F96")(%ai)%C("#CCFFCC")(Author: %an)%C(reset)' --abbrev-commit
     lg =  log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(dim green)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
     lhere = lol HEAD ^master
     rb = rebase
     rbc = rebase --continue
     rbi = rebase -i
-    rbum = pull --rebase upstream master
+    rbum = "!f() { \
+        if git remote get-url upstream >/dev/null 2>&1; then \
+            git pull --rebase upstream master; \
+        else \
+            git pull --ff-only; \
+        fi; \
+    }; f"
     shere = show HEAD ^master
     st = status
     sts = status -s
     sp = status --porcelain
     stasha = stash -a
+	wt-rm = "!f() { \\\n  if [ -z \"$1\" ]; then echo \"Usage: git wt-rm <path>\"; return 1; fi; \\\n  abs=$(cd \"$1\" 2>/dev/null && pwd || echo \"$1\"); \\\n  if git worktree list --porcelain | grep -q \"^worktree $abs$\"; then \\\n    rm -rf \"$abs\" && git worktree prune && echo \"Removed worktree: $abs\"; \\\n  else \\\n    echo \"Error: $abs is not a known worktree\"; return 1; \\\n  fi; \\\n}; f"
 
 [push]
 	default = simple
