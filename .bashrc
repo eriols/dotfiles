@@ -4,8 +4,8 @@ fi
 
 source ~/.bash_git
 
-export TERM=alacritty
-PATH=/usr/local/bin:/usr/local/sbin:~/bin:$PATH
+export EDITOR=vim
+PATH=$HOME/.local/bin:/usr/local/bin:/usr/local/lib:$HOME/go/bin:/usr/local/sbin:~/bin:$PATH
 export TMOUT=259200 # 72h
 export FZF_DEFAULT_COMMAND='git ls-files'
 # java
