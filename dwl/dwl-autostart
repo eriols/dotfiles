@@ -1,0 +1,19 @@
+#!/bin/sh
+# Run by dwl via its `-s` flag. dwl pipes its tag/layout/title status to OUR
+# stdin, and somebar reads that from stdin -- so we must background every other
+# helper and `exec somebar` last, letting it inherit this stdin.
+
+# Status text (battery/volume/network/clock) -> somebar, via `somebar -c`.
+"$HOME/code/dotfiles/dwl/dwl_status_bar.sh" &
+
+# Notifications (dunst works on Wayland too).
+pgrep -x dunst >/dev/null 2>&1 || dunst &
+
+# Idle locking, replacing xscreensaver: lock after 5 min and before sleep.
+if command -v swayidle >/dev/null 2>&1; then
+	swayidle -w \
+		timeout 300 'swaylock -f' \
+		before-sleep 'swaylock -f' &
+fi
+
+exec somebar

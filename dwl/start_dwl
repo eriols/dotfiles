@@ -1,0 +1,26 @@
+#!/bin/sh
+# Wayland session launcher for dwl (analog of start_dwm + the Wayland-relevant
+# parts of .xsession). Pointed at by dwl.desktop / GDM.
+
+# Tell apps & portals which session this is (wlroots-based).
+export XDG_CURRENT_DESKTOP=wlroots
+export XDG_SESSION_TYPE=wayland
+export XDG_SESSION_DESKTOP=dwl
+
+# Prefer native Wayland backends where apps support it.
+export MOZ_ENABLE_WAYLAND=1
+export QT_QPA_PLATFORM="wayland;xcb"
+export _JAVA_AWT_WM_NONREPARENTING=1   # fixes blank/grey Java (e.g. JetBrains) windows
+
+# Ensure a DBus session exists (PipeWire/WirePlumber, portals, notifications).
+if [ -z "${DBUS_SESSION_BUS_ADDRESS:-}" ]; then
+  eval "$(dbus-launch --exit-with-session)"
+fi
+[ -z "${XDG_RUNTIME_DIR:-}" ] && export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+
+# Keyboard layout & repeat rate are configured in dwl's config.h
+# (us(intl-unicode); repeat 250ms/50hz), so no setxkbmap/xset needed here.
+
+# dwl pipes its status to the -s command's stdin, which must reach somebar,
+# so the startup work lives in dwl-autostart (it backgrounds helpers, execs somebar).
+exec dwl -s "$HOME/code/dotfiles/dwl/dwl-autostart" 2> "$HOME/.dwl_logs.txt"
