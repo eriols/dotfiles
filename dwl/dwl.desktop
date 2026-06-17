@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=dwl
-Comment=dwm for Wayland
-DesktopNames=wlroots
-Exec=/home/olsson/code/dotfiles/dwl/start_dwl
-Type=Application
