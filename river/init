@@ -52,6 +52,14 @@ all_tags=$(((1 << 32) - 1))
 riverctl map normal Super       0 set-focused-tags $all_tags    # dwm view all
 riverctl map normal Super+Shift 0 set-view-tags    $all_tags    # dwm tag all
 
+# Jump back to the previous tag set (focus-previous-tags = dwm Mod+Tab).
+# Shift+Tab emits the ISO_Left_Tab keysym (and Shift may be "consumed"), so
+# bind both keysyms / modifier combos. Super+Tab works too, as a bonus.
+riverctl map normal Super       Tab          focus-previous-tags
+riverctl map normal Super+Shift Tab          focus-previous-tags
+riverctl map normal Super+Shift ISO_Left_Tab focus-previous-tags
+riverctl map normal Super       ISO_Left_Tab focus-previous-tags
+
 ### media keys (normal + locked), matching the dwm/dwl binds ####################
 for mode in normal locked; do
     riverctl map $mode None XF86MonBrightnessUp   spawn 'brightnessctl set +10%'
