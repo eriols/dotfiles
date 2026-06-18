@@ -41,7 +41,7 @@ bar:
         title:
           list:
             items:
-              - string: {text: "{layout}", foreground: 88aaccff, margin: 6}
+              - string: {text: "[]=", foreground: 88aaccff, margin: 6}   # fixed dwm-style tile symbol (rivertile is always tiling)
               - string: {text: "{title}", max: 90}
 
   right:
