@@ -14,7 +14,7 @@
     whitespace = red reverse
 
 [alias]
-    bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -n1 git branch -d; }; f"
+    bclean = "!f() { git branch --merged \"${1-master}\" --format='%(refname:short) %(HEAD)%(worktreepath)' | awk -v keep=\"${1-master}\" '$2 == \"\" && $1 != keep { print $1 }' | xargs -r git branch -D; }; f"
     bname = branch --show-current
     bs = branch --sort='-authordate:iso8601'
     c = commit
@@ -24,9 +24,10 @@
     ctags = !.git/hooks/ctags
     df = diff
     dc = diff --cached
-    lol = log --graph --pretty=format:'%C(dim white)%h%C(reset) %C("#98CE8F")%d%C(reset) %C(white)%s%C(reset) %C("#ff9F96")(%ai)%C("#CCFFCC")(Author: %an)%C(reset)' --abbrev-commit
+    lbase = log --graph --pretty=format:'%C(dim white)%h%C(reset) %C("#98CE8F")%d%C(reset) %C(white)%s%C(reset) %C("#ff9F96")(%ai)%C("#CCFFCC")(Author: %an)%C(reset)' --abbrev-commit
+    lol = lbase HEAD --tags
     lg =  log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(dim green)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
-    lhere = lol HEAD ^master
+    lhere = lbase HEAD ^master
     rb = rebase
     rbc = rebase --continue
     rbi = rebase -i
