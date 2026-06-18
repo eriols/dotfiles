@@ -42,7 +42,7 @@ bar:
           list:
             items:
               - string: {text: "[]=", foreground: 88aaccff, margin: 6}   # fixed dwm-style tile symbol (rivertile is always tiling)
-              - string: {text: "{title}", max: 90}
+              - string: {text: "{title}", max: 90, font: "Terminess Nerd Font:pixelsize=14"}
 
   right:
     - pulse:
