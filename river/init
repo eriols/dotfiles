@@ -1,0 +1,91 @@
+#!/bin/sh
+# river config (runtime, no recompile). Symlinked to ~/.config/river/init.
+# Mirrors the dwm/dwl keybinds: Super modkey, alacritty, dmenu, tags 1-9,
+# rivertile tiling, brightness/volume media keys, swaylock.
+#
+# See river(1), riverctl(1), rivertile(1). river re-runs this on each start.
+
+### commands ###################################################################
+riverctl map normal Super+Shift Return spawn alacritty
+riverctl map normal Super       P      spawn dmenu_run          # via Xwayland
+riverctl map normal Super+Shift C      close                    # dwm kill (Super+Shift+c)
+riverctl map normal Super+Shift Q      exit                     # dwm quit (Super+Shift+q)
+riverctl map normal Super+Shift L      spawn swaylock           # lock
+
+### focus / movement (dwm j/k, zoom, monitors) #################################
+riverctl map normal Super       J      focus-view next
+riverctl map normal Super       K      focus-view previous
+riverctl map normal Super+Shift J      swap next
+riverctl map normal Super+Shift K      swap previous
+riverctl map normal Super       Return zoom
+riverctl map normal Super       Comma  focus-output previous    # dwm focusmon -1
+riverctl map normal Super       Period focus-output next        # dwm focusmon +1
+riverctl map normal Super+Shift Comma  send-to-output previous  # dwm tagmon -1
+riverctl map normal Super+Shift Period send-to-output next      # dwm tagmon +1
+
+### layout (rivertile): mfact=h/l, nmaster=i/d, orientation=arrows ##############
+riverctl map normal Super       H      send-layout-cmd rivertile "main-ratio -0.05"   # dwm setmfact
+riverctl map normal Super       L      send-layout-cmd rivertile "main-ratio +0.05"
+riverctl map normal Super       I      send-layout-cmd rivertile "main-count +1"      # dwm incnmaster
+riverctl map normal Super       D      send-layout-cmd rivertile "main-count -1"
+riverctl map normal Super       Up     send-layout-cmd rivertile "main-location top"
+riverctl map normal Super       Right  send-layout-cmd rivertile "main-location right"
+riverctl map normal Super       Down   send-layout-cmd rivertile "main-location bottom"
+riverctl map normal Super       Left   send-layout-cmd rivertile "main-location left"
+
+### float / fullscreen #########################################################
+riverctl map normal Super+Shift Space  toggle-float       # dwm togglefloating
+riverctl map normal Super       F      toggle-fullscreen
+riverctl map-pointer normal Super BTN_LEFT   move-view
+riverctl map-pointer normal Super BTN_RIGHT  resize-view
+riverctl map-pointer normal Super BTN_MIDDLE toggle-float
+
+### tags 1-9 (dwm-style: view / tag / toggle) ##################################
+for i in $(seq 1 9); do
+    tags=$((1 << (i - 1)))
+    riverctl map normal Super              $i set-focused-tags  $tags
+    riverctl map normal Super+Shift        $i set-view-tags     $tags
+    riverctl map normal Super+Control      $i toggle-focused-tags $tags
+    riverctl map normal Super+Shift+Control $i toggle-view-tags  $tags
+done
+all_tags=$(((1 << 32) - 1))
+riverctl map normal Super       0 set-focused-tags $all_tags    # dwm view all
+riverctl map normal Super+Shift 0 set-view-tags    $all_tags    # dwm tag all
+
+### media keys (normal + locked), matching the dwm/dwl binds ####################
+for mode in normal locked; do
+    riverctl map $mode None XF86MonBrightnessUp   spawn 'brightnessctl set +10%'
+    riverctl map $mode None XF86MonBrightnessDown spawn 'brightnessctl set 10%-'
+    riverctl map $mode None XF86AudioRaiseVolume  spawn 'wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+'
+    riverctl map $mode None XF86AudioLowerVolume  spawn 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-'
+    riverctl map $mode None XF86AudioMute         spawn 'wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle'
+done
+
+### input / appearance #########################################################
+# Keyboard: us(intl-unicode), repeat 250ms delay / 50 per sec (xset r rate 250 50)
+riverctl keyboard-layout -variant intl-unicode us
+riverctl set-repeat 50 250
+riverctl focus-follows-cursor normal              # dwm sloppyfocus
+
+# Touchpad: tap-to-click, no natural scroll, disable-while-typing (matches dwl)
+riverctl list-inputs | grep -iE 'touchpad|trackpad' | while read -r dev; do
+    riverctl input "$dev" tap enabled
+    riverctl input "$dev" natural-scroll disabled
+    riverctl input "$dev" disable-while-typing enabled
+done
+
+riverctl background-color        0x222222
+riverctl border-color-focused    0x005577          # matches the dwl/dwm theme
+riverctl border-color-unfocused  0x444444
+riverctl border-width 1
+
+### autostart ##################################################################
+# Backgrounded here so river's SIGTERM-to-process-group cleans them up on exit.
+pgrep -x dunst >/dev/null 2>&1 || dunst &
+yambar &
+command -v swayidle >/dev/null 2>&1 && \
+    swayidle -w timeout 300 'swaylock -f' before-sleep 'swaylock -f' &
+
+### layout generator (must be last; river SIGTERMs the init process group) ######
+riverctl default-layout rivertile
+exec rivertile -view-padding 6 -outer-padding 6

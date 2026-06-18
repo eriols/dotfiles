@@ -1,0 +1,85 @@
+# yambar config for river. Symlinked to ~/.config/yambar/config.yml.
+# Replaces dwm_status_bar.sh: tags/title from river, status from native modules.
+# Plain-text labels for portability; swap in Terminess Nerd Font glyphs if wanted.
+
+bar:
+  location: top
+  height: 24
+  spacing: 6
+  margin: 8
+  font: monospace:pixelsize=13
+  foreground: ffffffff
+  background: 222222ff
+
+  left:
+    - river:
+        # Tags 1-9 (river instantiates content for all 32, so hide id > 9).
+        content:
+          map:
+            default: {empty: {}}
+            conditions:
+              id <= 9:
+                map:
+                  # Left-click: view the tag. Right-click: toggle it in/out of view.
+                  # yambar substitutes {id}; /bin/sh computes river's 1<<(id-1) bitmask.
+                  on-click:
+                    left:  '/bin/sh -c "riverctl set-focused-tags $((1 << ({id} - 1)))"'
+                    right: '/bin/sh -c "riverctl toggle-focused-tags $((1 << ({id} - 1)))"'
+                  conditions:
+                    state == focused:
+                      string: {text: " {id} ", foreground: ffffffff, deco: {background: {color: 005577ff}}}
+                    state == urgent:
+                      string: {text: " {id} ", foreground: ff0000ff}
+                    state == unfocused:
+                      string: {text: " {id} ", foreground: ffffffff}
+                    state == invisible:
+                      map:
+                        conditions:
+                          occupied:  {string: {text: " {id} ", foreground: aaaaaaff}}
+                          ~occupied: {string: {text: " {id} ", foreground: 555555ff}}
+        # Layout symbol + focused window title.
+        title:
+          list:
+            items:
+              - string: {text: "{layout}", foreground: 88aaccff, margin: 6}
+              - string: {text: "{title}", max: 90}
+
+  right:
+    - pulse:
+        content:
+          map:
+            default: {string: {text: "vol --", foreground: ffffff88}}
+            conditions:
+              sink_muted: {string: {text: "vol muted", foreground: ffffff88}}
+              ~sink_muted: {string: {text: "vol {sink_percent}%"}}
+    - network:
+        poll-interval: 2000
+        content:
+          map:
+            default: {empty: {}}
+            conditions:
+              name == wlp0s20f3:
+                map:
+                  default: {string: {text: "offline", foreground: ffffff88}}
+                  conditions:
+                    state == up && ipv4 != "": {string: {text: "{ssid}"}}
+                    state == up && ipv4 == "": {string: {text: "{ssid} (no ip)", foreground: ffffff88}}
+                    state == down: {string: {text: "offline", foreground: ffffff88}}
+    - backlight:
+        name: intel_backlight
+        content:
+          string: {text: "bl {percent}%"}
+    - battery:
+        name: BAT0
+        poll-interval: 30000
+        content:
+          map:
+            default: {string: {text: "bat {capacity}% {estimate}"}}
+            conditions:
+              state == charging: {string: {text: "chg {capacity}%"}}
+              state == full:     {string: {text: "full"}}
+    - clock:
+        time-format: "%H:%M"
+        date-format: "%Y-%m-%d"
+        content:
+          string: {text: "{date} {time}"}
