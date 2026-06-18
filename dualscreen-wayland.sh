@@ -56,12 +56,22 @@ ext() {
         --output "$LAPTOP" --off
 }
 
+# After a layout change, redraw the per-monitor yambar bars. Only relevant
+# under river (dwl's somebar handles all outputs itself; dwm is X11).
+refresh_bars() {
+    if command -v riverctl >/dev/null 2>&1 && pgrep -x river >/dev/null 2>&1; then
+        "$HOME/code/dotfiles/river/start-bars"
+    fi
+}
+
 param() {
     case $1 in
         d) dual ;;
         e) ext ;;
         l) laptop ;;
-        *) echo -e "Invalid parameter. Add one of the following:\n\"d\" for dual screen laptop and external.\n\"l\" for laptop only\n\"e\" for external only." ;;
+        *) echo -e "Invalid parameter. Add one of the following:\n\"d\" for dual screen laptop and external.\n\"l\" for laptop only\n\"e\" for external only."
+           return ;;
     esac
+    refresh_bars
 }
 main "${1:-}"

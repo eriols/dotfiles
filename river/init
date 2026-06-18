@@ -82,7 +82,8 @@ riverctl border-width 1
 ### autostart ##################################################################
 # Backgrounded here so river's SIGTERM-to-process-group cleans them up on exit.
 pgrep -x dunst >/dev/null 2>&1 || dunst &
-yambar &
+# One yambar per monitor (dwm-style). Re-run start-bars after changing outputs.
+"$HOME/code/dotfiles/river/start-bars"
 command -v swayidle >/dev/null 2>&1 && \
     swayidle -w timeout 300 'swaylock -f' before-sleep 'swaylock -f' &
 

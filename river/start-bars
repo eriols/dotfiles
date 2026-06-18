@@ -1,0 +1,36 @@
+#!/bin/sh
+# Run one yambar per enabled output. river/yambar only draw on a single
+# monitor by default (yambar's bar.monitor defaults to the primary), so to
+# get dwm-style per-monitor bars we launch one instance per output. Each
+# shows its OWN monitor's tags via the river module's all-monitors:false.
+#
+# Re-runnable: kills existing yambars first, so run it again after changing
+# the monitor layout (e.g. after dualscreen-wayland.sh).
+
+base="${XDG_CONFIG_HOME:-$HOME/.config}/yambar/config.yml"
+
+# Names of currently-enabled outputs, exactly as the compositor names them.
+list_outputs() {
+    if command -v wlr-randr >/dev/null 2>&1; then
+        wlr-randr | awk '
+            /^[^[:space:]]/             { name = $1 }
+            /^[[:space:]]+Enabled: yes/ { print name }'
+    else
+        # Fallback: connected DRM connectors (card1-DP-3 -> DP-3).
+        for s in /sys/class/drm/*/status; do
+            [ "$(cat "$s" 2>/dev/null)" = connected ] || continue
+            c=$(basename "$(dirname "$s")"); echo "${c#card*-}"
+        done
+    fi
+}
+
+# Replace any running bars (only pause if we actually killed something).
+if pkill -x yambar 2>/dev/null; then sleep 0.3; fi
+
+list_outputs | while IFS= read -r out; do
+    [ -n "$out" ] || continue
+    cfg="${XDG_RUNTIME_DIR:-/tmp}/yambar-$out.yml"
+    # Inject `monitor: <out>` as the first key under the top-level bar:.
+    sed "0,/^bar:/ s//bar:\n  monitor: $out/" "$base" > "$cfg"
+    riverctl spawn "yambar -c '$cfg'"   # detached, so it survives a closed terminal
+done
