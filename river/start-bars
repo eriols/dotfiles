@@ -5,7 +5,7 @@
 # shows its OWN monitor's tags via the river module's all-monitors:false.
 #
 # Re-runnable: kills existing yambars first, so run it again after changing
-# the monitor layout (e.g. after dualscreen-wayland.sh).
+# the monitor layout (e.g. after dualscreen.sh).
 
 base="${XDG_CONFIG_HOME:-$HOME/.config}/yambar/config.yml"
 
