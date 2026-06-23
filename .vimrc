@@ -168,9 +168,9 @@ if has("cscope")
     set cscopeverbose
 endif
 
-" Use GNU Global instead of ctags
-set cscopeprg=gtags-cscope
-set cscopetag
+" cscope (cscope.out) handles functions/symbols/callers; it does NOT report
+" enum members as definitions, so Ctrl-] falls back to the ctags .git/tags
+" file (built by the ctags git hook) for those. csto=0 above wires the order.
 " " jump to a function declaration
 " nmap <silent> <C-\> :cs find s <C-R>=expand("<cword>")<CR><CR>
 " " show a list of where function is called
