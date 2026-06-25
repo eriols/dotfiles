@@ -1,13 +1,13 @@
 #!/bin/sh
 # river config (runtime, no recompile). Symlinked to ~/.config/river/init.
-# Mirrors the dwm/dwl keybinds: Super modkey, alacritty, dmenu, tags 1-9,
+# Mirrors the dwm/dwl keybinds: Super modkey, alacritty, bemenu, tags 1-9,
 # rivertile tiling, brightness/volume media keys, swaylock.
 #
 # See river(1), riverctl(1), rivertile(1). river re-runs this on each start.
 
 ### commands ###################################################################
 riverctl map normal Super+Shift Return spawn alacritty
-riverctl map normal Super       P      spawn dmenu_run          # via Xwayland
+riverctl map normal Super       P      spawn 'BEMENU_BACKEND=wayland bemenu-run'   # backend forced: Xwayland keyboard-grab is unreliable
 riverctl map normal Super+Shift C      close                    # dwm kill (Super+Shift+c)
 riverctl map normal Super+Shift Q      exit                     # dwm quit (Super+Shift+q)
 riverctl map normal Super+Shift L      spawn swaylock           # lock
