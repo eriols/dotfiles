@@ -1,0 +1,79 @@
+#!/bin/sh
+# wl-repeat-info — print the keyboard repeat rate/delay the Wayland compositor
+# is currently advertising to clients (the wl_keyboard.repeat_info event).
+#
+# This is the closest thing to `xset q`'s repeat line under Wayland: there is no
+# central server to query, so we connect as a client, bind the seat + keyboard,
+# and read the value the compositor pushes. Works on any wlroots compositor
+# (river, sway, dwl, ...).
+#
+# The C client is embedded below and compiled on first run (and whenever this
+# script changes) into $XDG_CACHE_HOME, so nothing binary lives in the repo.
+set -eu
+
+cache="${XDG_CACHE_HOME:-$HOME/.cache}/wl-repeat-info"
+bin="$cache/probe"
+src="$cache/probe.c"
+
+# Rebuild if the cached binary is missing or this script is newer than it.
+if [ ! -x "$bin" ] || [ "$0" -nt "$bin" ]; then
+	mkdir -p "$cache"
+	command -v gcc >/dev/null 2>&1 || { echo "wl-repeat-info: gcc not found" >&2; exit 127; }
+	pkg-config --exists wayland-client 2>/dev/null || { echo "wl-repeat-info: wayland-client dev files not found" >&2; exit 127; }
+	cat >"$src" <<'EOF'
+#include <stdio.h>
+#include <string.h>
+#include <wayland-client.h>
+
+static struct wl_keyboard *kbd = NULL;
+static int got = 0;
+
+static void kb_keymap(void *d, struct wl_keyboard *k, uint32_t f, int32_t fd, uint32_t s) {}
+static void kb_enter(void *d, struct wl_keyboard *k, uint32_t s, struct wl_surface *su, struct wl_array *a) {}
+static void kb_leave(void *d, struct wl_keyboard *k, uint32_t s, struct wl_surface *su) {}
+static void kb_key(void *d, struct wl_keyboard *k, uint32_t s, uint32_t t, uint32_t key, uint32_t st) {}
+static void kb_mods(void *d, struct wl_keyboard *k, uint32_t s, uint32_t md, uint32_t ml, uint32_t lk, uint32_t g) {}
+static void kb_repeat(void *d, struct wl_keyboard *k, int32_t rate, int32_t delay) {
+	printf("repeat_info: rate=%d keys/sec, delay=%d ms\n", rate, delay);
+	got = 1;
+}
+static const struct wl_keyboard_listener kb_listener = {
+	kb_keymap, kb_enter, kb_leave, kb_key, kb_mods, kb_repeat
+};
+
+static void seat_caps(void *d, struct wl_seat *s, uint32_t caps) {
+	if ((caps & WL_SEAT_CAPABILITY_KEYBOARD) && !kbd) {
+		kbd = wl_seat_get_keyboard(s);
+		wl_keyboard_add_listener(kbd, &kb_listener, NULL);
+	}
+}
+static void seat_name(void *d, struct wl_seat *s, const char *n) {}
+static const struct wl_seat_listener seat_listener = { seat_caps, seat_name };
+
+static void reg_global(void *d, struct wl_registry *r, uint32_t name, const char *iface, uint32_t ver) {
+	if (strcmp(iface, "wl_seat") == 0) {
+		uint32_t v = ver < 5 ? ver : 5; /* need >=4 for repeat_info */
+		struct wl_seat *seat = wl_registry_bind(r, name, &wl_seat_interface, v);
+		wl_seat_add_listener(seat, &seat_listener, NULL);
+	}
+}
+static void reg_remove(void *d, struct wl_registry *r, uint32_t name) {}
+static const struct wl_registry_listener reg_listener = { reg_global, reg_remove };
+
+int main(void) {
+	struct wl_display *dpy = wl_display_connect(NULL);
+	if (!dpy) { fprintf(stderr, "wl-repeat-info: cannot connect to Wayland display\n"); return 1; }
+	struct wl_registry *reg = wl_display_get_registry(dpy);
+	wl_registry_add_listener(reg, &reg_listener, NULL);
+	wl_display_roundtrip(dpy); /* globals -> bind seat */
+	wl_display_roundtrip(dpy); /* seat caps -> get keyboard */
+	for (int i = 0; i < 20 && !got; i++) wl_display_roundtrip(dpy); /* repeat_info */
+	if (!got) { fprintf(stderr, "wl-repeat-info: no repeat_info received\n"); return 2; }
+	wl_display_disconnect(dpy);
+	return 0;
+}
+EOF
+	gcc "$src" -o "$bin" $(pkg-config --cflags --libs wayland-client)
+fi
+
+exec "$bin"
