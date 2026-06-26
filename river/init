@@ -10,7 +10,7 @@ riverctl map normal Super+Shift Return spawn alacritty
 riverctl map normal Super       P      spawn 'BEMENU_BACKEND=wayland bemenu-run'   # backend forced: Xwayland keyboard-grab is unreliable
 riverctl map normal Super+Shift C      close                    # dwm kill (Super+Shift+c)
 riverctl map normal Super+Shift Q      exit                     # dwm quit (Super+Shift+q)
-riverctl map normal Super+Shift L      spawn swaylock           # lock
+riverctl map normal Super+Shift L      spawn 'systemctl suspend'   # lock+suspend (before-sleep hook locks)
 
 ### focus / movement (dwm j/k, zoom, monitors) #################################
 riverctl map normal Super       J      focus-view next
@@ -88,12 +88,26 @@ riverctl border-color-unfocused  0x444444
 riverctl border-width 1
 
 ### autostart ##################################################################
+# Push the session env into the D-Bus + systemd --user activation environment so
+# on-demand portal backends can reach Wayland. GNOME does this automatically;
+# bare wlroots compositors don't, so without it xdg-desktop-portal-gtk dies with
+# "cannot open display" and every native file dialog (upload/download) silently
+# no-ops in Firefox & co. Must run before anything that talks to the bus/portal.
+dbus-update-activation-environment --systemd WAYLAND_DISPLAY DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
+
 # Backgrounded here so river's SIGTERM-to-process-group cleans them up on exit.
 pgrep -x dunst >/dev/null 2>&1 || dunst &
 # One yambar per monitor (dwm-style). Re-run start-bars after changing outputs.
 "$HOME/code/dotfiles/river/start-bars"
+# Idle: lock at 5min, blank the backlight 30s later (no wlopm/dpms in river,
+# so brightnessctl stands in), then actually suspend at 10min to save battery.
+# before-sleep locks on ANY suspend (idle, lid, or Super+Shift+L).
 command -v swayidle >/dev/null 2>&1 && \
-    swayidle -w timeout 300 'swaylock -f' before-sleep 'swaylock -f' &
+    swayidle -w \
+        timeout 300 'swaylock -f' \
+        timeout 330 'brightnessctl -s set 0' resume 'brightnessctl -r' \
+        timeout 600 'systemctl suspend' \
+        before-sleep 'swaylock -f' &
 
 ### layout generator (must be last; river SIGTERMs the init process group) ######
 riverctl default-layout rivertile
