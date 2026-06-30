@@ -126,6 +126,15 @@ nnoremap <leader>vps `[v`]
 "visuals
 vnoremap // y/<C-R>"<CR>
 
+" Wayland system clipboard. This vim has only +xterm_clipboard (X11), and
+" river doesn't bridge X11<->Wayland, so the + register can't reach Wayland
+" apps. Pipe through wl-copy/wl-paste instead.
+if executable('wl-copy')
+  xnoremap <silent> <leader>y y:call system('wl-copy', @0)<CR>
+  nnoremap <silent> <leader>y :call system('wl-copy', getline('.') . "\n")<CR>
+  nnoremap <silent> <leader>p :put =system('wl-paste --no-newline')<CR>
+endif
+
 "highlight line we're on
 :hi CursorLine term=NONE ctermbg=lightgray ctermfg=black guibg=lightgray guifg=black
 nnoremap <leader>c :set cursorline! cursorcolumn!<CR>
