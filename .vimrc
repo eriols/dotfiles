@@ -126,9 +126,10 @@ nnoremap <leader>vps `[v`]
 "visuals
 vnoremap // y/<C-R>"<CR>
 
-" Wayland system clipboard. This vim has only +xterm_clipboard (X11), and
-" river doesn't bridge X11<->Wayland, so the + register can't reach Wayland
-" apps. Pipe through wl-copy/wl-paste instead.
+" Explicit yanks to the Wayland system clipboard via wl-copy/wl-paste.
+" Vim now has native Wayland clipboard ("+y works), but wl-copy daemonizes and
+" keeps serving the text after vim exits; the native + selection is dropped on
+" quit when no clipboard manager is running.
 if executable('wl-copy')
   xnoremap <silent> <leader>y y:call system('wl-copy', @0)<CR>
   nnoremap <silent> <leader>y :call system('wl-copy', getline('.') . "\n")<CR>
